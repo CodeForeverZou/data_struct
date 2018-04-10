@@ -9,35 +9,6 @@ void InitNode(BTNode *p) {
 	p->rchild = NULL;
 }
 
-/*
-BTree CreatTree() {
-BTNode *T,*p, *q;
-printf("按先序遍历递归建树\n请依次输入节点信息，以‘#’结束\n");
-Elem data;
-char str;
-scanf("%c%*c", &data);
-
-
-if (data!='#')
-{
-T = p = (BTree)malloc(sizeof(BTNode));
-InitNode(T);
-T->data = data;
-scanf("%c%*c", &data);
-
-while (data!='#')
-{
-q = (BTree)malloc(sizeof(BTNode));
-InitNode(q);
-q->data =data;
-
-}
-}
-
-
-}
-*/
-
 void CreatBTree(BTree &T) {
 	char data;
 	scanf("%c%*c", &data);
@@ -85,6 +56,8 @@ void PostOrder(BTree T) {
 	}
 }
 
+//============================================================================//
+/*先序遍历——非递归*/
 void N_PreOrder(BTree T) {
 	Stack S;
 	InitStack(S);
@@ -120,6 +93,28 @@ void N_PreOrder(BTree T) {
 	printf("\n");
 }
 
+void N2_PreOrder(BTree T) {
+	Stack S;
+	InitStack(S);
+	BTNode *r=NULL,*p=T;
+	while (p||S.top>0)
+	{
+		if (p)
+		{
+			Push(S,p);
+			Visit(p);				//与中序遍历非递归非常类似
+			p = p->lchild;
+		}
+		else
+		{
+			p = Pop(S);
+			p = p->rchild;
+		}
+	}
+	printf("\n");
+}
+
+/*中序遍历——非递归*/
 void N_InOrder(BTree T) {
 	Stack S;
 	InitStack(S);
@@ -174,5 +169,84 @@ void N2_InOrder(BTree T) {
 		}
 	}
 	*/
+	printf("\n");
+}
+
+
+/*后序遍历——非递归*/
+void N_PostOrder(BTree T) {
+	Stack S;
+	InitStack(S);
+	BTree p = T, r = NULL;
+
+	while (p||S.top>0)
+	{
+		if (p) {
+			Push(S, p);
+			p = p->lchild;
+		}
+		else {
+			p = S.node[S.top - 1];
+			if (p->rchild && p->rchild != r) {
+				Push(S, p->rchild);
+				p = p->rchild->lchild;				//搞成p=p->lchild了
+			}
+			else
+			{
+				p = Pop(S);
+				Visit(p);
+				r = p;
+				p = NULL;
+			}
+		}
+	}
+	printf("\n");
+}
+
+//////////////////第二种方法搞复杂了/////////////////////
+typedef struct PostTag
+{
+	BTNode *p;
+	int tag;
+}PostTag;
+
+typedef struct PostStack {
+	PostTag S[MAX];
+	int top;
+}PostStack;
+
+void InitTag(PostStack &PS) {
+	int i = 0;
+	for ( i = 0; i < MAX; i++)
+	{
+		PS.S[i].p = NULL;
+		PS.S[i].tag = 0;
+	}
+	PS.top = 0;
+}
+
+void N2_PostOrder(BTree T) {
+	PostStack PS;
+	BTNode *p=T;
+	InitTag(PS);
+
+	while (p||PS.top>0)
+	{
+		while (p)
+		{
+			PS.S[PS.top++].p = p;
+			PS.S[PS.top-1].tag = 0;				//粘贴出错，PS.S[PS.top++].tag = 0   这一句是必须要有的
+			p = p->lchild;
+		}
+		while (PS.top>0 && PS.S[PS.top-1].tag)
+		{
+			Visit(PS.S[--PS.top].p);			//粘贴出错，p=PS.S[--PS.top].p
+		}
+		if (PS.top>0)
+		{
+			PS.S[PS.top - 1].tag = 1;
+			p = PS.S[PS.top - 1].p->rchild;
+		}
+	}
 	printf("\n");
 }
