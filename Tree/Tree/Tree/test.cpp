@@ -54,6 +54,12 @@ q->data =data;
 
 int main1()
 {
+#if GRAPH
+	printf("请先切换成TREE定义\n");
+	system("pause");
+	return 0;
+#endif // GRAPH
+
 	BTree T;
 	T = (BTree)malloc(sizeof(BTNode));
 	InitNode(T);

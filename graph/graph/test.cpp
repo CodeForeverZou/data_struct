@@ -5,7 +5,9 @@
 void test() {
 
 	AlGraph G=CreatGraph();
-	TraverseG(G);
+	PrintG(G);
+	DFS(G);
+	BFS(G);
 	system("pause");
 	getchar();
 }
