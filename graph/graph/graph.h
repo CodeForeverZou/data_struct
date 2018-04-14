@@ -1,4 +1,4 @@
-#pragma once
+ï»¿#pragma once
 
 #include "stdafx.h"
 #include "E:\code\github\data_struct\Tree\Tree\Tree\queue.h"
@@ -20,17 +20,18 @@ void InitAlGraph(AlGraph &G) {
 	}
 }
 
+//=============================== é‚»æ¥è¡¨æ³• å®ç°å›¾================================
 AlGraph CreatGraph() {
 	AlGraph G;
 	InitAlGraph(G);
 
 #if CHAR
-	printf("<<----ÕıÔÚ´´½¨×Ö·ûÊı¾İÀàĞÍµÄÍ¼---->>\n×¢£ºÇëÊ¹ÓÃÓ¢ÎÄÊäÈë·¨,²¢ÓÃA¡¢B¡­±íÊ¾½Úµã\n\n");
+	printf("<<----æ­£åœ¨åˆ›å»ºå­—ç¬¦æ•°æ®ç±»å‹çš„å›¾---->>\næ³¨ï¼šè¯·ä½¿ç”¨è‹±æ–‡è¾“å…¥æ³•,å¹¶ç”¨Aã€Bâ€¦è¡¨ç¤ºèŠ‚ç‚¹\n\n");
 #elif INT
-	printf("<<----ÕıÔÚ´´½¨Êı×ÖÊı¾İÀàĞÍµÄÍ¼---->>\n×¢£ºÇëÊ¹ÓÃÓ¢ÎÄÊäÈë·¨,²¢ÓÃ1¡¢2¡­±íÊ¾½Úµã\n\n");
+	printf("<<----æ­£åœ¨åˆ›å»ºæ•°å­—æ•°æ®ç±»å‹çš„å›¾---->>\næ³¨ï¼šè¯·ä½¿ç”¨è‹±æ–‡è¾“å…¥æ³•,å¹¶ç”¨1ã€2â€¦è¡¨ç¤ºèŠ‚ç‚¹\n\n");
 #endif // CHAR
 
-	printf("ÇëÊäÈëÍ¼µÄ¶¥µãÊı£¬±ßÊı£º");
+	printf("è¯·è¾“å…¥å›¾çš„é¡¶ç‚¹æ•°ï¼Œè¾¹æ•°ï¼š");
 	scanf("%d,%d%*c", &G.vnum, &G.anum);
 	int i;
 	
@@ -54,7 +55,7 @@ AlGraph CreatGraph() {
 	int n = 0;
 	ArcNode *vn, *wn,*pre;
 
-	printf("ÇëÒÀ´ÎÊäÈë¸÷±ßv-w:\n");
+	printf("è¯·ä¾æ¬¡è¾“å…¥å„è¾¹v-w:\n");
 	for ( i = 0; i < G.anum; i++)
 	{
 
@@ -73,7 +74,7 @@ AlGraph CreatGraph() {
 			vn = (ArcList)malloc(sizeof(ArcNode));
 			vn->adjvex = w;
 			vn->nextarc = NULL;
-			G.vertices[n].firstarc = vn;			//ÉÙÁËÕâÒ»¾ä¸³Öµ£¬¸ãµÄfirstarc×ÜÊÇNULL
+			G.vertices[n].firstarc = vn;			//å°‘äº†è¿™ä¸€å¥èµ‹å€¼ï¼Œæçš„firstarcæ€»æ˜¯NULL
 		}
 		else
 		{
@@ -95,7 +96,7 @@ AlGraph CreatGraph() {
 void PrintG(AlGraph G) {
 	int i;
 	ArcNode *vn;
-	printf("\nÁÚ½Ó±í·¨½¨Á¢µÄÍ¼ÈçÏÂ£º\n");
+	printf("\né‚»æ¥è¡¨æ³•å»ºç«‹çš„å›¾å¦‚ä¸‹ï¼š\n");
 	for ( i = 0; i < G.vnum; i++)
 	{
 		vn = G.vertices[i].firstarc;
@@ -119,13 +120,13 @@ void PrintG(AlGraph G) {
 	}
 }
 
-//======================Éî¶ÈÓÅÏÈ======================//
+//======================æ·±åº¦ä¼˜å…ˆ======================//
 bool visited[MAX] = { false };
 void DFSTraverse(AlGraph G, int i);
 
 void DFS(AlGraph G) {
 	int i;
-	printf("Éî¶ÈÓÅÏÈ±éÀúË³ĞòÎª£º\n");
+	printf("æ·±åº¦ä¼˜å…ˆéå†é¡ºåºä¸ºï¼š\n");
 	for ( i = 0; i < G.vnum; i++)
 	{
 		if (!visited[i])
@@ -147,7 +148,7 @@ void DFSTraverse(AlGraph G, int i) {
 		for ( p=G.vertices[i].firstarc;  p ; p=p->nextarc)
 		{
 			int n = (int(p->adjvex) - 65);
-			DFSTraverse(G, n);						//²»ÄÜĞ´³ÉDFSTraverse[G,(int(p->adjvex) - 65)];
+			DFSTraverse(G, n);						//ä¸èƒ½å†™æˆDFSTraverse[G,(int(p->adjvex) - 65)];
 		}
 #elif INT
 		printf("%d->", i + 1);
@@ -162,12 +163,12 @@ void DFSTraverse(AlGraph G, int i) {
 }
 
 
-//======================¹ã¶ÈÓÅÏÈ======================//
+//======================å¹¿åº¦ä¼˜å…ˆ======================//
 void BFSTraverse(AlGraph G, int i);
 
 void BFS(AlGraph G) {
-	for (int j = 0; j < MAX; j++) visited[j] = false;		//²»ÄÜĞ´³Évisited[MAX]={false}
-	printf("¹ã¶ÈÓÅÏÈ±éÀúË³ĞòÎª£º\n");
+	for (int j = 0; j < MAX; j++) visited[j] = false;		//ä¸èƒ½å†™æˆvisited[MAX]={false}
+	printf("å¹¿åº¦ä¼˜å…ˆéå†é¡ºåºä¸ºï¼š\n");
 	for (int i = 0; i < G.vnum; i++)
 	{
 		if (!visited[i]) BFSTraverse(G, i);
@@ -195,14 +196,14 @@ void BFSTraverse(AlGraph G,int i) {
 		{
 
 #if CHAR
-			i = int(p->adjvex) - 65;					//×¢ÒâÕâÀïµÄi;
+			i = int(p->adjvex) - 65;					//æ³¨æ„è¿™é‡Œçš„i;
 			if (!visited[i]) {
 				EnQueue(Q, i);
 				printf("%c->", char(i + 65));
 				visited[i] = true;
 			}
 #elif INT
-			i = p->adjvex - 1;					//×¢ÒâÕâÀïµÄi;
+			i = p->adjvex - 1;					//æ³¨æ„è¿™é‡Œçš„i;
 			if (!visited[i]) {
 				EnQueue(Q, i);
 				printf("%d->", i + 1);
@@ -212,4 +213,127 @@ void BFSTraverse(AlGraph G,int i) {
 
 		}
 	}
+}
+
+
+
+/*============================== é‚»æ¥çŸ©é˜µ å®ç°å›¾==================================
+=================================================================*/
+MGraph CreatMG() {
+	MGraph G;
+	int i, j, n, v, w, info;
+	printf("è¯·è¾“å…¥å›¾çš„é¡¶ç‚¹æ•°ï¼Œè¾¹æ•°ï¼š");
+	scanf("%d,%d%*c", &G.vnum, &G.anum);
+	G.node = (int **)malloc(sizeof(int) * G.vnum* G.vnum);
+	for (i = 0; i < G.vnum; i++)
+	{
+		*(G.node + i) = (int *)malloc(sizeof(int)*G.vnum);
+		for (j = 0; j < G.vnum; j++)
+		{
+			*(*(G.node + i) + j) = 0;
+		}
+	}
+
+	printf("åˆ›å»ºæ— å‘ç½‘1ã€æœ‰å‘ç½‘2ï¼š");
+	scanf("%d%*c", &n);
+	printf("è¯·è¾“å…¥å„è¾¹å…·ä½“æƒ…å†µv-wï¼Œinfoï¼š\n");
+	if (n == 1)
+	{
+		for (j = 0; j < G.anum; j++)
+		{
+			scanf("%d-%d,%d%*c", &v, &w, &info);			//è¿™æ˜¯å¿…è¦çš„%*c
+			*(*(G.node + v - 1) + w - 1) = info;
+			*(*(G.node + w - 1) + v - 1) = info;
+		}
+	}
+	else
+	{
+		for (j = 0; j < G.anum; j++)
+		{
+			scanf("%d-%d,%d%*c", &v, &w, &info);
+			*(*(G.node + v - 1) + w - 1) = info;
+		}
+	}
+
+	for ( i = 0; i < G.vnum; i++)
+	{
+		for ( j = 0; j < G.vnum; j++)
+		{
+			printf("%d ", *(*(G.node + i) + j));
+		}
+		printf("\n");
+	}
+	return G;
+
+}
+
+typedef struct {
+	int v;
+	int w;
+	int info;
+	int visited;
+}Dist;
+
+//<<----------------åŠ è¾¹æ³• å®ç°æœ€å°ç”Ÿæˆæ ‘ -------------------->>
+
+int Mindist = INFINITE;
+
+int FindMindist(MGraph G,Dist *dist) {
+	int j, n = 0;
+	for (j = 0; j < G.anum; j++)
+	{
+		if (!(dist + j)->visited && Mindist >(dist + j)->info)
+		{
+			Mindist = (dist + j)->info;
+			n = j;
+		}
+	}
+	return n;
+}
+
+void Kruskal(MGraph G) {
+	int i, j, n = 0;
+	
+	Dist *dist;
+	dist = (Dist *)malloc(sizeof(Dist)*G.anum);		//ç”¨æ¥å­˜å‚¨æ¯æ¡è¾¹çš„ä¿¡æ¯ï¼ŒåŠæ˜¯å¦è¢«è®¿é—®è¿‡
+	int *node = (int *)malloc(sizeof(int)*G.vnum);	//ç”¨æ¥å­˜å‚¨å·²æœ‰èŠ‚ç‚¹
+
+	for ( i = 0; i < G.vnum; i++)			//åˆå§‹åŒ– å­˜å‚¨å‚æ•°
+	{
+		*(node + i) = 0;
+		for ( j = 0; j < G.vnum; j++)
+		{
+			if (*(*(G.node+i)+j))		//è¿™é‡Œå¿…é¡»å†æ¬¡æ–°å»ºï¼Œä¸ºå…¶å¼€è¾Ÿç©ºé—´
+			{
+				(dist + n)->v = i+1;
+				(dist + n)->w = j+1;
+				(dist + n)->info = *(*(G.node + i) + j);
+				(dist + n)->visited = 0;
+				n++;
+			}
+		}
+	}
+
+	for ( i = 0; i < G.vnum-1; i++)
+	{
+		n = FindMindist(G, dist);
+
+		//å‡ºé”™æœ€ä¸¥é‡ï¼ï¼ï¼å†™æˆâ–·  if(!*  (node + (dist + n)->w)  -1)ï¼›  â—æçš„è€æ˜¯å‡ï¼Œç„¶åè¿˜å¿½ç•¥åé¢ ||
+		if (!*(node + (dist + n)->w - 1) || !*(node + (dist + n)->v - 1))				//åˆ¤æ–­æ˜¯å¦æœ‰ç¯
+		{
+			printf("%d->%d\n", (dist + n)->v, (dist + n)->w);
+			(dist + n)->visited = 1;
+			Mindist = INFINITE;
+
+			*(node + (dist + n)->w-1) = 1;
+			*(node + (dist + n)->v-1) = 1;
+		}
+		else
+		{
+			(dist + n)->visited = 1;
+			Mindist = INFINITE;
+			i--;						//è¿™ä¸€å¥éå¸¸é‡è¦ï¼ï¼ï¼Â·ï¼ï¼ï¼
+		}
+	}
+
 }
