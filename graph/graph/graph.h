@@ -230,7 +230,7 @@ MGraph CreatMG() {
 		*(G.node + i) = (int *)malloc(sizeof(int)*G.vnum);
 		for (j = 0; j < G.vnum; j++)
 		{
-			*(*(G.node + i) + j) = 0;
+			*(*(G.node + i) + j) = INFINITE;
 		}
 	}
 
@@ -293,7 +293,7 @@ int FindMindist(MGraph G,Dist *dist) {
 
 void Kruskal(MGraph G) {
 	int i, j, n = 0;
-	
+	printf("kruskal算法遍历结果\n");
 	Dist *dist;
 	dist = (Dist *)malloc(sizeof(Dist)*G.anum);		//用来存储每条边的信息，及是否被访问过
 	int *node = (int *)malloc(sizeof(int)*G.vnum);	//用来存储已有节点
@@ -303,7 +303,7 @@ void Kruskal(MGraph G) {
 		*(node + i) = 0;
 		for ( j = 0; j < G.vnum; j++)
 		{
-			if (*(*(G.node+i)+j))		//这里必须再次新建，为其开辟空间
+			if (*(*(G.node+i)+j)!=INFINITE)		//这里必须再次新建，为其开辟空间
 			{
 				(dist + n)->v = i+1;
 				(dist + n)->w = j+1;
@@ -319,7 +319,7 @@ void Kruskal(MGraph G) {
 		n = FindMindist(G, dist);
 
 		//出错最严重！！！写成▷  if(!*  (node + (dist + n)->w)  -1)；  ◁搞的老是假，然后还忽略后面 ||
-		if (!*(node + (dist + n)->w - 1) || !*(node + (dist + n)->v - 1))				//判断是否有环
+		if (!*(node + (dist + n)->w - 1) /*|| !*(node + (dist + n)->v - 1)*/ )				//判断是否有环
 		{
 			printf("%d->%d\n", (dist + n)->v, (dist + n)->w);
 			(dist + n)->visited = 1;
@@ -334,6 +334,83 @@ void Kruskal(MGraph G) {
 			Mindist = INFINITE;
 			i--;						//这一句非常重要！！！·！！！
 		}
+	}
+
+}
+
+//============================== Prim算法 ====================================
+struct Pr_dist
+{
+	int v, w;
+	int visited;
+};
+
+int IsLoop(int *node, int v, int w,int n) {
+	int flag1= 0,flag2=0;
+	for (int i = 0; i < n; i++)
+	{
+		if (*(node + i) == v) flag1 = 1;
+		if (*(node + i) == w) flag2 = 1;
+	}
+	if (flag1 && flag2)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+void Prim(MGraph G,int v) {
+	int i, j, k, n = 0, x, y, p, q;
+	//Dist *dist;
+	//dist = (Dist *)malloc(sizeof(Dist)*G.anum);		//用来存储每条边的信息，及是否被访问过
+	int *node = (int *)malloc(sizeof(int)*G.vnum);	//用来存储已有节点
+	Pr_dist *dist = (Pr_dist *)malloc(sizeof(Pr_dist)*G.anum);
+
+	for (i = 0; i < G.vnum; i++)			//初始化 存储参数
+	{
+		*(node + i) = 0;
+		for (j = 0; j < G.vnum; j++)
+		{
+			if (*(*(G.node + i) + j) != INFINITE)		//这里必须再次新建，为其开辟空间
+			{
+				(dist + n)->v = i;
+				(dist + n)->w = j;
+				//(dist + n)->info = *(*(G.node + i) + j);
+				(dist + n)->visited = 0;
+				n++;
+			}
+		}
+	}
+
+	n = 0;
+	printf("prim算法遍历结果\n");
+	*(node + n++) = v-1;
+
+	for (i = 0; i < G.vnum - 1; i++) {
+		Mindist = INFINITE;
+		for (j = 0; j < n; j++) {
+			v = *(node + j);			//当前节点值（数组序号为：n值-1）
+			for (k = 0; k < G.vnum; k++) {
+				if ( Mindist > *(*(G.node+v)+k) )
+				{
+					for (p = 0; p < G.anum; p++)
+					{
+						if ((dist + p)->v == v && (dist + p)->w == k && (dist + p)->visited != 1
+							&& !IsLoop(node,v,k,n)) {
+							x = v;
+							y = k;
+							q = p;
+							Mindist = *(*(G.node + v) + k);
+						}
+					}
+				}//if
+
+			}
+		}
+		printf("%d->%d\n", x+1, y+1);
+		(dist + q)->visited = 1;		//设置该边已经访问
+		*(node + n++) = y;
+
 	}
 
 }

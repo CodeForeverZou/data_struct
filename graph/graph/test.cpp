@@ -25,6 +25,9 @@ void test2() {
 }
 
 void test3() {
+
 	MGraph G = CreatMG();
 	Kruskal(G);
+	Prim(G, 1);
+	
 }
